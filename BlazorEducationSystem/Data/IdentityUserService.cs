@@ -65,13 +65,13 @@ namespace BlazorEducationSystem.Data
             _db.TeacherInfos.Add(new TeacherEducationInfo { IdentityUser = user });
             _db.StudentInfos.Add(new StudentEducationInfo { IdentityUser = user });
             await _db.SaveChangesAsync();
-            return "Save successfully";
+            return "Create successfully";
         }
         public async Task<string> CreateUserRoleAsync(IdentityUserRole<string> role)
         {
             _db.UserRoles.Add(role);
             await _db.SaveChangesAsync();
-            return "Save role successfully";
+            return "Create role successfully";
         }
 
         public async Task<string> UpdateUserAsync(IdentityUser u, string role)
@@ -89,42 +89,5 @@ namespace BlazorEducationSystem.Data
             await _userManager.DeleteAsync(u);
             return "Delete successfully";
         }
-
-        //private bool UserExists(string id)
-        //{
-        //    return _db.Users.Any(e => e.Id == id);
-        //}
-
-        //public async Task<IdentityUser> InsertUserAsync(IdentityUser user)
-        //{
-        //    _db.Users.Add(user);
-        //    await _db.SaveChangesAsync();
-        //    return user;
-        //}
-
-        //public async Task<IdentityUser> UpdateUserAsync(string id, IdentityUser u)
-        //{
-        //    var user = await _db.Users.FindAsync(id);
-        //    if (user == null)
-        //        return null;
-        //    user.UserName = u.UserName;
-        //    user.Email = u.Email;
-        //    _db.Users.Update(user);
-        //    await _db.SaveChangesAsync();
-        //    return user;
-        //}
-
-        //public async Task<IdentityUser> DeleteUserAsync(string id)
-        //{
-        //    var user = await _db.Users.FindAsync(id);
-
-        //    if (user == null)
-        //        return null;
-
-        //    _db.Users.Remove(user);
-        //    await _db.SaveChangesAsync();
-
-        //    return user;
-        //}
     }
 }

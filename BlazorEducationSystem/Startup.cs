@@ -48,6 +48,8 @@ namespace BlazorEducationSystem
             services.AddSingleton<WeatherForecastService>();
 
             services.AddScoped<IdentityUserService>();
+            services.AddScoped<EducationTaskService>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

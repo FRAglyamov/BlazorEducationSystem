@@ -1,0 +1,69 @@
+﻿@page "/DeleteEducationTask/{CurrentID}"
+@using BlazorEducationSystem.Data
+@inject EducationTaskService taskService
+@inject NavigationManager NavigationManager
+
+<h2>Delete Task</h2>
+<hr />
+<h3>Are you sure want to delete this?</h3>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>Task ID:</label>
+            <label>@task.Id</label>
+        </div>
+        <div class="form-group">
+            <label>Task Name:</label>
+            <label>@task.Name</label>
+        </div>
+        <div class="form-group">
+            <label>Description:</label>
+            <label>@task.Description</label>
+        </div>
+        <div class="form-group">
+            <label>Start time:</label>
+            <label>@task.startTime</label>
+        </div>
+        <div class="form-group">
+            <label>End time:</label>
+            <label>@task.endTime</label>
+        </div>
+        <div class="form-group">
+            <label>Subject Group:</label>
+            <label>@subjectGroupName (ID: @task.SubjectGroupId)</label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@DeleteTaskAsync" value="Delete" />
+            <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    EducationTask task = new EducationTask();
+    string subjectGroupName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        task = await Task.Run(() => taskService.GetTaskByIdAsync(Int32.Parse(CurrentID)));
+        var _subjectGroup = await Task.Run(() => taskService.GetSubjectGroupById(task.SubjectGroupId));
+        subjectGroupName = _subjectGroup.Name;
+    }
+    protected async Task DeleteTaskAsync()
+    {
+        await taskService.DeleteTaskAsync(task);
+        NavigationManager.NavigateTo("EducationTasks");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("EducationTasks");
+    }
+
+}

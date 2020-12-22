@@ -4,14 +4,16 @@ using BlazorEducationSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlazorEducationSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201222172658_Name for SubjectGroup + FIO for Student and Teacher")]
+    partial class NameforSubjectGroupFIOforStudentandTeacher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace BlazorEducationSystem.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubjectGroupId")
+                    b.Property<int?>("SubjectGroupId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("endTime")
@@ -393,9 +395,7 @@ namespace BlazorEducationSystem.Data.Migrations
                 {
                     b.HasOne("BlazorEducationSystem.Data.SubjectGroup", "SubjectGroup")
                         .WithMany("Tasks")
-                        .HasForeignKey("SubjectGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectGroupId");
 
                     b.Navigation("SubjectGroup");
                 });

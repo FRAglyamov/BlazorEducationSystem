@@ -1,0 +1,81 @@
+﻿@page "/EditEducationTask/{CurrentID}"
+@using BlazorEducationSystem.Data
+@inject EducationTaskService taskService
+@inject NavigationManager NavigationManager
+
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<h2>Update User</h2>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Name" class="control-label">Task Name</label>
+                <input form="Name" class="form-control" @bind="@task.Name" />
+            </div>
+            <div class="form-group">
+                <label for="Description" class="control-label">Description</label>
+                <textarea form="Description" class="form-control" @bind="@task.Description" />
+            </div>
+            <div class="form-group">
+                <label for="startTime" class="control-label">Start time</label>
+                <input type="datetime" form="startTime" class="form-control" @bind="@task.startTime" />
+            </div>
+            <div class="form-group">
+                <label for="endTime" class="control-label">End time</label>
+                <input type="datetime" form="endTime" class="form-control" @bind="@task.endTime" />
+            </div>
+            <div class="form-group">
+                <label for="SubjectGroup" class="control-label">Subject Group</label>
+                <select @bind="_subjectGroup.Id">
+                    @if (subjectGroups != null)
+                    {
+                        @foreach (var sg in subjectGroups)
+                        {
+                            <option value="@sg.Id">@sg.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateUser" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    EducationTask task = new EducationTask();
+    List<SubjectGroup> subjectGroups = new List<SubjectGroup>();
+    SubjectGroup _subjectGroup = new SubjectGroup();
+
+    protected override async Task OnInitializedAsync()
+    {
+        task = await Task.Run(() => taskService.GetTaskByIdAsync(Int32.Parse(CurrentID)));
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        subjectGroups = await taskService.GetCurrentTeacherSubjectGroups(user);
+    }
+    protected async Task UpdateUser()
+    {
+        await taskService.UpdateTaskAsync(task);
+        NavigationManager.NavigateTo("EducationTasks");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("EducationTasks");
+    }
+
+}
