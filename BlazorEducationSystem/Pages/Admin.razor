@@ -1,5 +1,9 @@
-﻿<h3>Admin</h3>
+﻿@page "/admin"
+@attribute [Authorize(Roles = "Admin")]
 
+
+<h3>Admin component</h3>
+<p>You can only see this if you're in the 'Admin' role.</p>
 @code {
 
 }

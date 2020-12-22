@@ -1,0 +1,66 @@
+﻿@page "/users"
+@using BlazorEducationSystem.Data
+@using Microsoft.AspNetCore.Identity;
+@inject IdentityUserService userService
+
+<h1>Users</h1>
+
+<p>This component demonstrates managing users data.</p>
+
+<NavLink class="nav-link" href="AddUser">
+    <span class="oi oi-plus" aria-hidden="true"> </span> Add New
+</NavLink>
+
+@if (users == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table table-hover'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in users)
+            {
+                <tr>
+                    <td>@u.Id</td>
+                    <td>@u.UserName</td>
+                    <td>@u.Email</td>
+                    <td>@roles[u.Id]</td>
+                    <td>
+                        <a class="nav-link" href="EditUser/@u.Id">
+                            <span class="oi oi-pencil" aria-hidden="true"></span>Edit
+                        </a>
+                        <a class="nav-link" href="DeleteUser/@u.Id">
+                            <span class="oi oi-trash" aria-hidden="true"></span>Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    List<IdentityUser> users;
+    Dictionary<string, string> roles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await load();
+    }
+
+    protected async Task load()
+    {
+        users = await userService.GetUsersAsync();
+        roles = await userService.GetUsersRolesAsync(users);
+    }
+}

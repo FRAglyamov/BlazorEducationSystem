@@ -12,5 +12,12 @@ namespace BlazorEducationSystem.Data
             : base(options)
         {
         }
+        public DbSet<StudentEducationInfo> StudentInfos { get; set; }
+        public DbSet<TeacherEducationInfo> TeacherInfos { get; set; }
+        public DbSet<SubjectGroup> SubjectGroups { get; set; }
+        public DbSet<EducationTask> EducationTasks { get; set; }
+        public DbSet<Work> Works { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+
     }
 }
