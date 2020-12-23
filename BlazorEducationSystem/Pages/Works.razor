@@ -1,0 +1,68 @@
+﻿@page "/EducationTask/{CurrentID}/Works"
+@using BlazorEducationSystem.Data
+@inject EducationTaskService taskService
+
+<h1>Works</h1>
+
+@if (works == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table table-hover'>
+        <thead>
+            <tr>
+                <th>Surname</th>
+                <th>Name</th>
+                <th>Middlename</th>
+                <th>Answer</th>
+                <th>Mark</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var w in works)
+            {
+            <tr>
+                <td>@dict[w].Surname</td>
+                <td>@dict[w].Name</td>
+                <td>@dict[w].Middlename</td>
+                <td>@w.Answer</td>
+                <td>
+                    <input form="Mark" class="form-control" @bind="@w.Mark" />
+                </td>
+                <td>
+                    <input type="button" class="btn btn-primary" @onclick="@(async => OnMarkChanged(w))" value="Update" />
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    List<Work> works = new List<Work>();
+    Dictionary<Work, StudentEducationInfo> dict = new Dictionary<Work, StudentEducationInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await load();
+    }
+
+    protected async Task load()
+    {
+        var task = await taskService.GetTaskByIdAsync(Int32.Parse(CurrentID));
+        works = await taskService.GetWorksAsync(task);
+        foreach (var w in works)
+        {
+            dict[w] = await taskService.GetStudentByWorkAsync(w);
+        }
+    }
+    protected async void OnMarkChanged(Work work)
+    {
+        await taskService.UpdateWorkAsync(work);
+    }
+}

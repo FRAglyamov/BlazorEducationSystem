@@ -44,6 +44,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@ViewWorks" value="Works" />
                 <input type="button" class="btn btn-primary" @onclick="@UpdateUser" value="Update" />
                 <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
             </div>
@@ -76,6 +77,10 @@
     void Cancel()
     {
         NavigationManager.NavigateTo("EducationTasks");
+    }
+    void ViewWorks()
+    {
+        NavigationManager.NavigateTo("/EducationTask/" + CurrentID + "/Works");
     }
 
 }

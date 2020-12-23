@@ -11,6 +11,7 @@ namespace BlazorEducationSystem.Data
         public Weekday Weekday { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
+        public int SubjectGroupId { get; set; }
         public SubjectGroup SubjectGroup { get; set; }
     }
 }

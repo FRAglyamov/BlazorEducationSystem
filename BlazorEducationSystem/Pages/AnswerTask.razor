@@ -1,0 +1,81 @@
+﻿@page "/AnswerTask/{CurrentID}"
+@using BlazorEducationSystem.Data
+@inject EducationTaskService taskService
+@inject NavigationManager NavigationManager
+
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+<h2>Answer Task</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>Task Name: @task.Name</label>
+        </div>
+        <div class="form-group">
+            <label>Description:</label>
+            <label>@task.Description</label>
+        </div>
+        <div class="form-group">
+            <label>Start time: @task.startTime</label>
+        </div>
+        <div class="form-group">
+            <label>End time: @task.endTime</label>
+        </div>
+        <div class="form-group">
+            <label>Subject Group: @subjectGroupName</label>
+        </div>
+        <div class="form-group">
+            <label>Mark: @work.Mark</label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="Answer" class="control-label">Answer</label>
+            <textarea form="Answer" class="form-control" @bind="@work.Answer" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@AnswerTaskAsync" value="Answer" />
+            <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    EducationTask task = new EducationTask();
+    Work work = new Work();
+    string subjectGroupName;
+    AuthenticationState authState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        task = await Task.Run(() => taskService.GetTaskByIdAsync(Int32.Parse(CurrentID)));
+        var _subjectGroup = await Task.Run(() => taskService.GetSubjectGroupById(task.SubjectGroupId));
+        subjectGroupName = _subjectGroup.Name;
+
+        //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        work = await Task.Run(() => taskService.GetWorkAsync(task, user));
+    }
+    // Create or update answer
+    protected async Task AnswerTaskAsync()
+    {
+        await taskService.AnswerTaskAsync(task, work, authState.User);
+        NavigationManager.NavigateTo("AssignedTasks");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("AssignedTasks");
+    }
+
+}

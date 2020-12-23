@@ -1,0 +1,65 @@
+﻿@page "/Schedule"
+@using BlazorEducationSystem.Data
+@inject EducationTaskService taskService
+
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+<h1>Schedule</h1>
+
+@if (subjectGroups == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var sg in subjectGroups)
+    {
+        //@GetLessons(sg);
+        <h3>@sg.Name</h3>
+        <table class='table table-hover'>
+            <thead>
+                <tr>
+                    <th>Weekday</th>
+                    <th>Start</th>
+                    <th>End</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var l in lessons[sg])
+                {
+                    <tr>
+                        <td>@l.Weekday</td>
+                        <td>@l.StartTime</td>
+                        <td>@l.EndTime</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    List<SubjectGroup> subjectGroups;
+    //List<Lesson> lessons;
+    Dictionary<SubjectGroup, List<Lesson>> lessons = new Dictionary<SubjectGroup, List<Lesson>>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await load();
+    }
+
+    protected async Task load()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        subjectGroups = await taskService.GetCurrentStudentSubjectGroups(user);
+        foreach (var sg in subjectGroups)
+        {
+            lessons[sg] = await taskService.GetLessonsBySubjectGroupId(sg);
+        }
+    }
+    //protected async Task GetLessons(SubjectGroup subjectGroup)
+    //{
+    //    lessons = await taskService.GetLessonsBySubjectGroup(subjectGroup);
+    //}
+}

@@ -9,6 +9,7 @@ namespace BlazorEducationSystem.Data
     {
         public int Id { get; set; }
         public EducationTask Task { get; set; }
+        public int StudentId { get; set; }
         public StudentEducationInfo Student { get; set; }
         public float Mark { get; set; }
         public string Answer { get; set; }
