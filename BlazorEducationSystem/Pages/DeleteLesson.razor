@@ -1,0 +1,61 @@
+﻿@page "/DeleteLesson/{CurrentID}"
+@using BlazorEducationSystem.Data
+@inject EducationTaskService taskService
+@inject NavigationManager NavigationManager
+
+<h2>Delete Lesson</h2>
+<hr />
+<h3>Are you sure want to delete this?</h3>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>Task ID:</label>
+            <label>@lesson.Id</label>
+        </div>
+        <div class="form-group">
+            <label>Weekday:</label>
+            <label>@lesson.Weekday</label>
+        </div>
+        <div class="form-group">
+            <label>Time:</label>
+            <label>@lesson.StartTime - @lesson.EndTime</label>
+        </div>
+        <div class="form-group">
+            <label>Subject Group:</label>
+            <label>@subjectGroupName (ID: @lesson.SubjectGroupId)</label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@DeleteLessonAsync" value="Delete" />
+            <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    Lesson lesson = new Lesson();
+    string subjectGroupName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        lesson = await Task.Run(() => taskService.GetLessonByIdAsync(Int32.Parse(CurrentID)));
+        var _subjectGroup = await Task.Run(() => taskService.GetSubjectGroupByIdAsync(lesson.SubjectGroupId));
+        subjectGroupName = _subjectGroup.Name;
+    }
+    protected async Task DeleteLessonAsync()
+    {
+        await taskService.DeleteLessonAsync(lesson);
+        NavigationManager.NavigateTo("Lesson");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Lesson");
+    }
+
+}

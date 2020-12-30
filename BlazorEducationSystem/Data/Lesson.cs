@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace BlazorEducationSystem.Data
 {
+    /// <summary>
+    /// Занятия групп с временем их проведения (день недели, начало и конец)
+    /// </summary>
     public class Lesson
     {
         public int Id { get; set; }

@@ -6,6 +6,10 @@ using System.Text;
 
 namespace BlazorEducationSystem.Data
 {
+    /// <summary>
+    /// DbContext приложения.
+    /// Связывает модели приложения с их представление в БД
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

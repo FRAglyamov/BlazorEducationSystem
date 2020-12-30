@@ -6,7 +6,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<h2>Update User</h2>
+<h2>Update Task</h2>
 <hr />
 <form>
     <div class="row">
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label for="SubjectGroup" class="control-label">Subject Group</label>
-                <select @bind="_subjectGroup.Id">
+                <select @bind="_subjectGroupId">
                     @if (subjectGroups != null)
                     {
                         @foreach (var sg in subjectGroups)
@@ -45,7 +45,7 @@
         <div class="col-md-8">
             <div class="form-group">
                 <input type="button" class="btn btn-primary" @onclick="@ViewWorks" value="Works" />
-                <input type="button" class="btn btn-primary" @onclick="@UpdateUser" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@UpdateTask" value="Update" />
                 <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
             </div>
         </div>
@@ -59,7 +59,7 @@
     public string CurrentID { get; set; }
     EducationTask task = new EducationTask();
     List<SubjectGroup> subjectGroups = new List<SubjectGroup>();
-    SubjectGroup _subjectGroup = new SubjectGroup();
+    int _subjectGroupId = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,10 +67,12 @@
 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        subjectGroups = await taskService.GetCurrentTeacherSubjectGroups(user);
+        subjectGroups = await taskService.GetCurrentTeacherSubjectGroupsAsync(user);
     }
-    protected async Task UpdateUser()
+    protected async Task UpdateTask()
     {
+        task.SubjectGroup = await taskService.GetSubjectGroupByIdAsync(_subjectGroupId);
+        task.SubjectGroupId = _subjectGroupId;
         await taskService.UpdateTaskAsync(task);
         NavigationManager.NavigateTo("EducationTasks");
     }

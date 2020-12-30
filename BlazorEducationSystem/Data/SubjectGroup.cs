@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace BlazorEducationSystem.Data
 {
+    /// <summary>
+    /// Учебные группы
+    /// </summary>
     public class SubjectGroup
     {
         public int Id { get; set; }

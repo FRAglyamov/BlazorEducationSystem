@@ -6,7 +6,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<h2>Add User</h2>
+<h2>Add Task</h2>
 <hr />
 <form>
     <div class="row">
@@ -72,7 +72,7 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        subjectGroups = await taskService.GetCurrentTeacherSubjectGroups(user);
+        subjectGroups = await taskService.GetCurrentTeacherSubjectGroupsAsync(user);
         _subjectGroup = subjectGroups.First();
     }
 

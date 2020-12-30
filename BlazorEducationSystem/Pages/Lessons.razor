@@ -1,0 +1,72 @@
+﻿@page "/Lessons"
+@using BlazorEducationSystem.Data
+@inject EducationTaskService taskService
+
+<h1>Lessons</h1>
+
+<NavLink class="nav-link" href="AddLesson">
+    <span class="oi oi-plus" aria-hidden="true"> </span> Add New
+</NavLink>
+
+
+@if (lessons == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (Weekday day in Enum.GetValues(typeof(Weekday)))
+    {
+        <h3>@day.ToString()</h3>
+        <table class='table table-hover'>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Group</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (lessonsByWeekday.ContainsKey(day))
+                    @foreach (var l in lessonsByWeekday[day])
+                    {
+                        <tr>
+                            <td>@l.StartTime - @l.EndTime</td>
+                            <td>@subjectGroupNameById[l.SubjectGroupId]</td>
+                            <td>
+                                <a class="nav-link" href="EditLesson/@l.Id">
+                                    <span class="oi oi-pencil" aria-hidden="true"></span>Edit
+                                </a>
+                                <a class="nav-link" href="DeleteLesson/@l.Id">
+                                    <span class="oi oi-trash" aria-hidden="true"></span>Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    List<Lesson> lessons;
+    Dictionary<Weekday, List<Lesson>> lessonsByWeekday = new Dictionary<Weekday, List<Lesson>>();
+    Dictionary<int, string> subjectGroupNameById = new Dictionary<int, string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await load();
+    }
+
+    protected async Task load()
+    {
+        lessons = await taskService.GetLessonsSortedByStartTimeAsync();
+        foreach (var l in lessons)
+        {
+            subjectGroupNameById[l.SubjectGroupId] = (await taskService.GetSubjectGroupByIdAsync(l.SubjectGroupId)).Name;
+
+            if (lessonsByWeekday.ContainsKey(l.Weekday) == false)
+                lessonsByWeekday[l.Weekday] = new List<Lesson>();
+            lessonsByWeekday[l.Weekday].Add(l);
+        }
+    }
+}

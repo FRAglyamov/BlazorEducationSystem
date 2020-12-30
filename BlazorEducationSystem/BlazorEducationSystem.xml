@@ -1,0 +1,271 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BlazorEducationSystem</name>
+    </assembly>
+    <members>
+        <member name="T:BlazorEducationSystem.Data.ApplicationDbContext">
+            <summary>
+            DbContext приложения.
+            Связывает модели приложения с их представление в БД
+            </summary>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.EducationTask">
+            <summary>
+            Задания со сроками, создающиеся учителем для группы
+            </summary>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.EducationTaskService">
+            <summary>
+            Service для управления заданиями
+            </summary>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetTasksAsync">
+            <summary>
+            Получение списка всех заданий
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetTaskByIdAsync(System.Int32)">
+            <summary>
+            Получение задания по id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.CreateTaskAsync(BlazorEducationSystem.Data.EducationTask)">
+            <summary>
+            Создание нового задания
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.UpdateTaskAsync(BlazorEducationSystem.Data.EducationTask)">
+            <summary>
+            Обновление задания
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.DeleteTaskAsync(BlazorEducationSystem.Data.EducationTask)">
+            <summary>
+            Удаление задания
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetSubjectGroupsAsync">
+            <summary>
+            Получение списка всех учебных групп
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetSubjectGroupByIdAsync(System.Int32)">
+            <summary>
+            Получение группы по id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetCurrentTeacherSubjectGroupsAsync(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Получение списка групп, связанных с учителем
+            </summary>
+            <param name="claimsPrincipal"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetCurrentStudentSubjectGroupsAsync(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Получение списка групп, связанных со студентом
+            </summary>
+            <param name="claimsPrincipal"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetLessonsAsync">
+            <summary>
+            Получение списка всех занятий
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetLessonByIdAsync(System.Int32)">
+            <summary>
+            Получение занятий по id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetLessonsBySubjectGroupIdAsync(BlazorEducationSystem.Data.SubjectGroup)">
+            <summary>
+            Получение списка занятий по учебной группе
+            </summary>
+            <param name="subjectGroup"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetLessonsSortedByStartTimeAsync">
+            <summary>
+            Получение списка всех занятий, отсортированных по времени начала занятия
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.CreateLessonAsync(BlazorEducationSystem.Data.Lesson)">
+            <summary>
+            Создание нового занятия
+            </summary>
+            <param name="lesson"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.UpdateLessonAsync(BlazorEducationSystem.Data.Lesson)">
+            <summary>
+            Обновление занятия
+            </summary>
+            <param name="lesson"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.DeleteLessonAsync(BlazorEducationSystem.Data.Lesson)">
+            <summary>
+            Удаление занятия
+            </summary>
+            <param name="lesson"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetWorkAsync(BlazorEducationSystem.Data.EducationTask,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Получение работы студента по заданию
+            </summary>
+            <param name="task"></param>
+            <param name="claimsPrincipal"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetWorksAsync(BlazorEducationSystem.Data.EducationTask)">
+            <summary>
+            Получение списка всех работ по заданию
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.UpdateWorkAsync(BlazorEducationSystem.Data.Work)">
+            <summary>
+            Обновление работы
+            </summary>
+            <param name="work"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.GetStudentByWorkAsync(BlazorEducationSystem.Data.Work)">
+            <summary>
+            Получение данных студента по работе
+            </summary>
+            <param name="work"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.EducationTaskService.AnswerTaskAsync(BlazorEducationSystem.Data.EducationTask,BlazorEducationSystem.Data.Work,System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Добавление/обновление работы при ответе на задание
+            </summary>
+            <param name="task"></param>
+            <param name="work"></param>
+            <param name="claimsPrincipal"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.IdentityUserService">
+            <summary>
+            Service для управления основными данными пользователя и его ролями
+            </summary>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.GetUsersAsync">
+            <summary>
+            Получение списка всех пользователей из БД
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.GetUserRoleAsync(Microsoft.AspNetCore.Identity.IdentityUser)">
+            <summary>
+            Получение роли пользователя по его IdentityUser
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.GetUsersRolesAsync(System.Collections.Generic.List{Microsoft.AspNetCore.Identity.IdentityUser})">
+            <summary>
+            Получение словаря userId: role по списку пользователей
+            </summary>
+            <param name="users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.GetUserRoleAsync(System.String)">
+            <summary>
+            Получение роли пользователя по его id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.GetUserByIdAsync(System.String)">
+            <summary>
+            Получения пользователя по id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.CreateUserAsync(Microsoft.AspNetCore.Identity.IdentityUser,System.String,System.String)">
+            <summary>
+            Создание нового пользователя, а также профилей учителя и студента для него
+            </summary>
+            <param name="user"></param>
+            <param name="password"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.CreateUserRoleAsync(Microsoft.AspNetCore.Identity.IdentityUserRole{System.String})">
+            <summary>
+            Добавление роли пользователю
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.UpdateUserAsync(Microsoft.AspNetCore.Identity.IdentityUser,System.String)">
+            <summary>
+            Обновление данных пользователя и его роли
+            </summary>
+            <param name="u"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlazorEducationSystem.Data.IdentityUserService.DeleteUserAsync(Microsoft.AspNetCore.Identity.IdentityUser)">
+            <summary>
+            Удаление пользователя
+            </summary>
+            <param name="u"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.Lesson">
+            <summary>
+            Занятия групп с временем их проведения (день недели, начало и конец)
+            </summary>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.StudentEducationInfo">
+            <summary>
+            Данные по студенту, связанные с его пользовательским аккаунтом и учебными группами
+            </summary>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.SubjectGroup">
+            <summary>
+            Учебные группы
+            </summary>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.TeacherEducationInfo">
+            <summary>
+            Данные по учителю, связанные с его пользовательским аккаунтом и учебными группами
+            </summary>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.Weekday">
+            <summary>
+            Дни недели. Начинаются с понедельника, заканчиваются воскресеньем
+            Используются для расписания занятий
+            </summary>
+        </member>
+        <member name="T:BlazorEducationSystem.Data.Work">
+            <summary>
+            Работы, сданные студентом по заданию (EducationTask)
+            </summary>
+        </member>
+    </members>
+</doc>

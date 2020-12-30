@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace BlazorEducationSystem.Data
 {
+    /// <summary>
+    /// Задания со сроками, создающиеся учителем для группы
+    /// </summary>
     public class EducationTask
     {
         public int Id { get; set; }

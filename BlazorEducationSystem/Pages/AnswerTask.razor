@@ -59,7 +59,7 @@
     protected override async Task OnInitializedAsync()
     {
         task = await Task.Run(() => taskService.GetTaskByIdAsync(Int32.Parse(CurrentID)));
-        var _subjectGroup = await Task.Run(() => taskService.GetSubjectGroupById(task.SubjectGroupId));
+        var _subjectGroup = await Task.Run(() => taskService.GetSubjectGroupByIdAsync(task.SubjectGroupId));
         subjectGroupName = _subjectGroup.Name;
 
         //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();

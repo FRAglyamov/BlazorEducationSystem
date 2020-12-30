@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlazorEducationSystem.Data
 {
+    /// <summary>
+    /// Данные по студенту, связанные с его пользовательским аккаунтом и учебными группами
+    /// </summary>
     public class StudentEducationInfo
     {
         public int Id { get; set; }

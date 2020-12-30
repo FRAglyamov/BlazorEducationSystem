@@ -1,0 +1,88 @@
+﻿@page "/EditLesson/{CurrentID}"
+@using BlazorEducationSystem.Data
+@inject EducationTaskService taskService
+@inject NavigationManager NavigationManager
+
+<h2>Update Lesson</h2>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Weekday" class="control-label">Weekday</label>
+                <select @bind="_weekday">
+                    @foreach (Weekday day in Enum.GetValues(typeof(Weekday)))
+                    {
+                        <option value="@day">@day.ToString()</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="StartTime" class="control-label">Start time</label>
+                <input type="time" form="StartTime" class="form-control" @bind="@startTime" />
+            </div>
+            <div class="form-group">
+                <label for="EndTime" class="control-label">End time</label>
+                <input type="time" form="EndTime" class="form-control" @bind="@endTime" />
+            </div>
+            <div class="form-group">
+                <label for="SubjectGroup" class="control-label">Subject Group</label>
+                <select @bind="_subjectGroupId">
+                    @if (subjectGroups != null)
+                    {
+                        @foreach (var sg in subjectGroups)
+                        {
+                            <option value="@sg.Id">@sg.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateLesson" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+    Lesson lesson = new Lesson();
+    List<SubjectGroup> subjectGroups = new List<SubjectGroup>();
+    int _subjectGroupId = 0;
+
+    Weekday _weekday = Weekday.Monday;
+    DateTime startTime = DateTime.Today;
+    DateTime endTime = DateTime.Today;
+
+    protected override async Task OnInitializedAsync()
+    {
+        lesson = await Task.Run(() => taskService.GetLessonByIdAsync(Int32.Parse(CurrentID)));
+        _weekday = lesson.Weekday;
+        startTime = new DateTime() + lesson.StartTime;
+        endTime = new DateTime() + lesson.EndTime;
+        _subjectGroupId = lesson.SubjectGroupId;
+        subjectGroups = await taskService.GetSubjectGroupsAsync();
+    }
+    protected async Task UpdateLesson()
+    {
+        lesson.Weekday = _weekday;
+        lesson.StartTime = startTime.TimeOfDay;
+        lesson.EndTime = endTime.TimeOfDay;
+        lesson.SubjectGroup = await taskService.GetSubjectGroupByIdAsync(_subjectGroupId);
+        await taskService.UpdateLessonAsync(lesson);
+        NavigationManager.NavigateTo("Lessons");
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Lessons");
+    }
+
+}

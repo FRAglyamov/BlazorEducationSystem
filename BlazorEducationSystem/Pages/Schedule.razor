@@ -40,7 +40,6 @@ else
 
 @code {
     List<SubjectGroup> subjectGroups;
-    //List<Lesson> lessons;
     Dictionary<SubjectGroup, List<Lesson>> lessons = new Dictionary<SubjectGroup, List<Lesson>>();
 
     protected override async Task OnInitializedAsync()
@@ -52,14 +51,10 @@ else
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        subjectGroups = await taskService.GetCurrentStudentSubjectGroups(user);
+        subjectGroups = await taskService.GetCurrentStudentSubjectGroupsAsync(user);
         foreach (var sg in subjectGroups)
         {
-            lessons[sg] = await taskService.GetLessonsBySubjectGroupId(sg);
+            lessons[sg] = await taskService.GetLessonsBySubjectGroupIdAsync(sg);
         }
     }
-    //protected async Task GetLessons(SubjectGroup subjectGroup)
-    //{
-    //    lessons = await taskService.GetLessonsBySubjectGroup(subjectGroup);
-    //}
 }
